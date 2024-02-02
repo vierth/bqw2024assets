@@ -1,0 +1,73 @@
+[gd_scene load_steps=13 format=3 uid="uid://bqysg1840ughd"]
+
+[ext_resource type="PackedScene" uid="uid://buoa4rfr48kmo" path="res://characters/player.tscn" id="1_ivp0y"]
+[ext_resource type="Texture2D" uid="uid://negj3k33ku8l" path="res://textures/tinymap.jpg" id="2_73cmo"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dwtgj"]
+sky_top_color = Color(0.14902, 0.364706, 1, 1)
+sky_horizon_color = Color(0.898039, 0.556863, 0.392157, 1)
+sky_curve = 0.191184
+ground_bottom_color = Color(0.150582, 0.365115, 1, 1)
+ground_horizon_color = Color(0.89827, 0.556754, 0.39315, 1)
+
+[sub_resource type="Sky" id="Sky_pdcon"]
+sky_material = SubResource("ProceduralSkyMaterial_dwtgj")
+
+[sub_resource type="Environment" id="Environment_18re3"]
+background_mode = 2
+sky = SubResource("Sky_pdcon")
+
+[sub_resource type="SphereMesh" id="SphereMesh_yklfs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n551u"]
+albedo_texture = ExtResource("2_73cmo")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_44tms"]
+material = SubResource("StandardMaterial3D_n551u")
+size = Vector2(100, 100)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_dpsms"]
+data = PackedVector3Array(50, 0, 50, -50, 0, 50, 50, 0, -50, -50, 0, 50, -50, 0, -50, 50, 0, -50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kscvm"]
+albedo_color = Color(0.372549, 0.372549, 0.372549, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pys5b"]
+material = SubResource("StandardMaterial3D_kscvm")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bfusu"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+
+[node name="level" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_18re3")
+
+[node name="Player" parent="." instance=ExtResource("1_ivp0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20256, 0)
+warp_location = Vector3(2.08165e-12, 20, 2.08165e-12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.31422, -4.35594)
+mesh = SubResource("SphereMesh_yklfs")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.712369, 0.701805, 0, -0.701805, -0.712369, 0, 4.56771, 0)
+
+[node name="terrain" type="StaticBody3D" parent="."]
+
+[node name="terrainmesh" type="MeshInstance3D" parent="terrain"]
+mesh = SubResource("PlaneMesh_44tms")
+
+[node name="terraincollision" type="CollisionShape3D" parent="terrain"]
+shape = SubResource("ConcavePolygonShape3D_dpsms")
+
+[node name="Buildings" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Buildings"]
+transform = Transform3D(11.9204, 0, 0, 0, 2.67128, 0, 0, 0, 2.37104, -1.18178, 1.33178, -9.29202)
+mesh = SubResource("BoxMesh_pys5b")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Buildings"]
+transform = Transform3D(11.9204, 0, 0, 0, 2.67128, 0, 0, 0, 2.37104, -1.18178, 1.33178, -9.29202)
+shape = SubResource("ConvexPolygonShape3D_bfusu")

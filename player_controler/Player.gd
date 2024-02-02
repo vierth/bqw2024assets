@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+@export var warp_location = Vector3(0,2,0)
+@export var min_y : int = -20
+
 @onready var neck = $Neck
 @onready var head = $Neck/Head
 
@@ -41,5 +44,8 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
+
+	if global_position.y < min_y:
+		global_position = warp_location
 
 	move_and_slide()
