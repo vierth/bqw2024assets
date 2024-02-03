@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var min_y : int = -20
 
 @onready var neck = $Neck
-@onready var head = $Neck/Head
+@onready var cam = $Neck/Head/Camera3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
@@ -22,8 +22,8 @@ func _unhandled_input(event):
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
 			neck.rotate_y(-event.relative.x * 0.01)
-			head.rotate_x(-event.relative.y * 0.01)
-			head.rotation.x = clamp(head.rotation.x, deg_to_rad(-60), deg_to_rad(90))
+			cam.rotate_x(-event.relative.y * 0.01)
+			cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-60), deg_to_rad(90))
 
 func _physics_process(delta):
 	# Add the gravity.
