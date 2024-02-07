@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var min_y : int = -20
 
 @onready var neck = $Neck
-@onready var cam = $Neck/Head/Camera3D
+@onready var cam = $Neck/Camera3D
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
